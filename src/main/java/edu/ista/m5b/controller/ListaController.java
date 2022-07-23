@@ -60,7 +60,9 @@ public class ListaController {
     public ResponseEntity<Lista> update(@PathVariable String nombre, @RequestBody Lista lista) {
 
         lista = listaServiceImpl.findById(nombre);
-        if (!(lista == null)) {
+        if (lista == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
             try {
                 listaAcual.setDescripcion(lista.getDescripcion());
 
@@ -68,8 +70,6 @@ public class ListaController {
             } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
