@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/listas")
 public class ListaController {
 
-    private Lista lista;
+    private Lista listaAcual;
     private List<Lista> listaList;
     private Cancion cancion;
 
@@ -28,9 +28,9 @@ public class ListaController {
     //READ BY ID
     @GetMapping("/{nombre}")
     public ResponseEntity<Lista> readById(@PathVariable String nombre) {
-        lista = listaServiceImpl.findById(nombre);
-        if (!(lista == null)) {
-            return new ResponseEntity<>(lista, HttpStatus.OK);
+        listaAcual = listaServiceImpl.findById(nombre);
+        if (!(listaAcual == null)) {
+            return new ResponseEntity<>(listaAcual, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -58,12 +58,13 @@ public class ListaController {
     //UPDATE
     @PutMapping("/{nombre}")
     public ResponseEntity<Lista> update(@PathVariable String nombre, @RequestBody Lista lista) {
+
         lista = listaServiceImpl.findById(nombre);
         if (!(lista == null)) {
             try {
-                lista.setDescripcion(lista.getDescripcion());
+                listaAcual.setDescripcion(lista.getDescripcion());
 
-                return new ResponseEntity<>(listaServiceImpl.save(lista), HttpStatus.OK);
+                return new ResponseEntity<>(listaServiceImpl.save(listaAcual), HttpStatus.OK);
             } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -76,8 +77,8 @@ public class ListaController {
     //DELETE
     @DeleteMapping("/{nombre}")
     public ResponseEntity<Lista> delete(@PathVariable String nombre) {
-        lista = listaServiceImpl.findById(nombre);
-        if (!(lista == null)) {
+        listaAcual = listaServiceImpl.findById(nombre);
+        if (!(listaAcual == null)) {
 /*
             lista.getCancion().forEach(cancion -> {
                 cancion.setLista(listaServiceImpl.findById(nombre));

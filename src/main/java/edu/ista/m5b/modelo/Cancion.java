@@ -16,6 +16,7 @@ public class Cancion {
     private String artista;
     private String album;
     private String anio;
+    //private String urlCaratula;
 
     @JsonIgnore
     @ManyToOne
