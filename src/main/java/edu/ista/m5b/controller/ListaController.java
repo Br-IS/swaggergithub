@@ -63,13 +63,13 @@ public class ListaController {
         if (lista == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            try {
+           // try {
                 listaAcual.setDescripcion(lista.getDescripcion());
 
                 return new ResponseEntity<>(listaServiceImpl.save(listaAcual), HttpStatus.OK);
-            } catch (Exception e) {
+           /* } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            }*/
         }
 
     }

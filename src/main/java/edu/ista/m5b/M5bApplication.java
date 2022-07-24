@@ -13,7 +13,7 @@ public class M5bApplication {
 		SpringApplication.run(M5bApplication.class, args);
 	}
 
-	/*
+
 	@Bean
 	public WebMvcConfigurer webMvcConfigurer() {
 		return new WebMvcConfigurer() {
@@ -23,6 +23,6 @@ public class M5bApplication {
 			}
 		};
 
-	}*/
+	}
 
 }
