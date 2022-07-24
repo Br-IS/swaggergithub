@@ -16,10 +16,12 @@ public class M5bApplication {
 	@Bean
 	public WebMvcConfigurer webMvcConfigurer() {
 		return new WebMvcConfigurer() {
-			public void addCorsMappings(CorsRegistry corsRegistry){
-				corsRegistry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+			registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedHeaders("*");
 			}
 		};
+
 	}
 
 }
