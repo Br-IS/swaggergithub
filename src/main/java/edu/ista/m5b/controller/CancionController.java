@@ -17,10 +17,11 @@ public class CancionController {
 
     private Cancion cancion;
 
-    private List<Cancion> cancionList;
+    // private List<Cancion> cancionList;
 
     @Autowired
     private CancionServiceImpl cancionServiceImpl;
+
     @Autowired
     private ListaServiceImpl listaServiceImpl;
 
@@ -43,13 +44,20 @@ public class CancionController {
 
     //UPDATE
     @PutMapping("/{titulo}/{nombre}")
-    public ResponseEntity<Cancion> update(@PathVariable String titulo,@PathVariable String nombre, @RequestBody Cancion cancione) {
+    public ResponseEntity<Cancion> update(@PathVariable String titulo, @PathVariable String nombre) {
+        return getCancionResponseEntity(titulo, nombre);
+    }
+
+    //sdd
+    @PostMapping("api/{titulo}/{nombre}")
+    public ResponseEntity<Cancion> asignar(@PathVariable String titulo, @PathVariable String nombre) {
+        return getCancionResponseEntity(titulo, nombre);
+    }
+
+    private ResponseEntity<Cancion> getCancionResponseEntity(@PathVariable String titulo, @PathVariable String nombre) {
         cancion = cancionServiceImpl.findById(titulo);
         if (!(cancion == null)) {
             try {
-                cancion.setAlbum(cancione.getAlbum());
-                cancion.setArtista(cancione.getArtista());
-                cancion.setAnio(cancione.getAnio());
                 cancion.setLista(listaServiceImpl.findById(nombre));
                 return new ResponseEntity<>(cancionServiceImpl.save(cancion), HttpStatus.OK);
             } catch (Exception e) {
@@ -60,12 +68,31 @@ public class CancionController {
         }
     }
 
+
+    //UPDATE
+    @PutMapping("/{titulo}")
+    public ResponseEntity<Cancion> updateCancion(@PathVariable String titulo, @RequestBody Cancion cancionBody) {
+        cancion = cancionServiceImpl.findById(titulo);
+        if (cancion == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            try {
+                cancion.setAlbum(cancionBody.getAlbum());
+                cancion.setArtista(cancionBody.getArtista());
+                cancion.setAnio(cancionBody.getAnio());
+                return new ResponseEntity<>(cancionServiceImpl.save(cancion), HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+    }
+
     //READ
     @GetMapping("/list")
     public ResponseEntity<List<Cancion>> read() {
         return new ResponseEntity<>(cancionServiceImpl.findAll(), HttpStatus.OK);
     }
-
 
 
     //DELETE
@@ -80,3 +107,22 @@ public class CancionController {
         }
     }
 }
+/*
+       @PutMapping("/{titulo}/{nombre}")
+    public ResponseEntity<Cancion> update(@PathVariable String titulo,@PathVariable String nombre, @RequestBody Cancion cancione) {
+        cancion = cancionServiceImpl.findById(titulo);
+        if (!(cancion == null)) {
+            try {
+               cancion.setAlbum(cancione.getAlbum());
+               cancion.setArtista(cancione.getArtista());
+               cancion.setAnio(cancione.getAnio());
+                cancion.setLista(listaServiceImpl.findById(nombre));
+                return new ResponseEntity<>(cancionServiceImpl.save(cancion), HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+     */

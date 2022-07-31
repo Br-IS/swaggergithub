@@ -40,10 +40,10 @@ public class ListaController {
     @PostMapping("/crear")
     public ResponseEntity<Lista> create(@RequestBody Lista lista) {
         listaList = listaServiceImpl.findAll();
-        lista.setNombre(String.format("Lista %d", listaList.size() + 1));
-        if(lista ==  null){
+        lista.setNombre(String.format("Lista_%d", listaList.size() + 1));
+        if (lista == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else{
+        } else {
             return new ResponseEntity<>(listaServiceImpl.save(lista), HttpStatus.CREATED);
         }
 
@@ -57,21 +57,18 @@ public class ListaController {
 
     //UPDATE
     @PutMapping("/{nombre}")
-    public ResponseEntity<Lista> update(@PathVariable String nombre, @RequestBody Lista lista) {
-
-        lista = listaServiceImpl.findById(nombre);
-        if (lista == null) {
+    public ResponseEntity<Lista> update(@PathVariable String nombre, @RequestBody Lista lista1) {
+        listaAcual = listaServiceImpl.findById(nombre);
+        if (listaAcual == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-           // try {
-                listaAcual.setDescripcion(lista.getDescripcion());
-
+            try {
+                listaAcual.setDescripcion(lista1.getDescripcion());
                 return new ResponseEntity<>(listaServiceImpl.save(listaAcual), HttpStatus.OK);
-           /* } catch (Exception e) {
+            } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }*/
+            }
         }
-
     }
 
     //DELETE
@@ -87,7 +84,6 @@ public class ListaController {
 
                 //cancionService.delete(cancion.getId());
             });*/
-
 
 
             listaServiceImpl.deleteById(nombre);
