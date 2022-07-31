@@ -58,6 +58,15 @@ public class ListaController {
     //UPDATE
     @PutMapping("/{nombre}")
     public ResponseEntity<Lista> update(@PathVariable String nombre, @RequestBody Lista lista1) {
+        return getListaResponseEntity(nombre, lista1);
+    }
+
+    @PostMapping("/{nombre}")
+    public ResponseEntity<Lista> updatePost(@PathVariable String nombre, @RequestBody Lista lista1) {
+        return getListaResponseEntity(nombre, lista1);
+    }
+
+    private ResponseEntity<Lista> getListaResponseEntity(@PathVariable String nombre, @RequestBody Lista lista1) {
         listaAcual = listaServiceImpl.findById(nombre);
         if (listaAcual == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -71,20 +80,12 @@ public class ListaController {
         }
     }
 
+
     //DELETE
     @DeleteMapping("/{nombre}")
     public ResponseEntity<Lista> delete(@PathVariable String nombre) {
         listaAcual = listaServiceImpl.findById(nombre);
         if (!(listaAcual == null)) {
-/*
-            lista.getCancion().forEach(cancion -> {
-                cancion.setLista(listaServiceImpl.findById(nombre));
-                Cancion cancion1 = new Cancion(cancion.getTitulo(), cancion.getArtista(), cancion.getAlbum(), cancion.getAnio(), cancion.getLista());
-                cancionService.save(cancion1);
-
-                //cancionService.delete(cancion.getId());
-            });*/
-
 
             listaServiceImpl.deleteById(nombre);
             return new ResponseEntity<>(HttpStatus.OK);
